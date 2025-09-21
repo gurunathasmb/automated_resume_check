@@ -9,15 +9,14 @@ uploaded_resume = st.file_uploader("Upload Resume (PDF/DOCX)", type=["pdf","docx
 uploaded_jd = st.file_uploader("Upload Job Description (TXT)", type=["txt"])
 
 if uploaded_resume and uploaded_jd:
-    # Save temporarily
     resume_path = f"temp_resume.{uploaded_resume.name.split('.')[-1]}"
-    jd_path = f"temp_jd.txt"
+    jd_path = "temp_jd.txt"
+    
     with open(resume_path, "wb") as f:
         f.write(uploaded_resume.getbuffer())
     with open(jd_path, "wb") as f:
         f.write(uploaded_jd.getbuffer())
 
-    # Call Flask API
     response = requests.post(BACKEND_URL, json={"resume_path": resume_path, "job_path": jd_path})
     result = response.json()
 
